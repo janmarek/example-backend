@@ -4,7 +4,7 @@ const app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
@@ -14,38 +14,48 @@ app.use(function(req, res, next) {
 });
 
 let id = 1;
-let contacts = [];
+let items = [];
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
-app.get('/contacts', (req, res) => res.json({contacts}));
+// item list
+app.get('/items', (req, res) => res.json({items}));
 
-app.get('/contacts/:id', (req, res) => {
-    const arr = contacts.filter(c => c.id == req.params.id);
+// item detail
+app.get('/items/:id', (req, res) => {
+    const item = items.find(i => i.id == req.params.id);
 
-    res.json({contact: arr.length > 0 ? arr[0] : null});
+    res.json({item});
 });
 
-app.post('/contacts', (req, res) => {
-    const newContact = {
+// add item
+app.post('/items', (req, res) => {
+    const item = {
         ...req.body,
         id: id++,
     };
-    contacts.push(newContact);
-    res.json({
-        contact: newContact,
-    });
+    items.push(item);
+    res.json({item});
 });
 
-app.post('/contacts/:id', (req, res) => {
-    const newContact = {
+// update item
+app.post('/items/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const updatedItem = {
         ...req.body,
         id,
     };
-    contacts = contacts.map(c => (c.id == req.params.id ? newContact : c));
+    items = items.map(item => (item.id === id ? updatedItem : item));
     res.json({
-        contact: newContact,
+        item: updatedItem,
     });
+});
+
+// remove item
+app.delete('/items/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    items = items.filter(item => item.id !== id);
+    res.send();
 });
 
 app.listen(4000, () => console.log('Example app listening on port 4000!'));
