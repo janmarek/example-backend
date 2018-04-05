@@ -1,10 +1,10 @@
 {
-  "name": "example-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "Jan Marek",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.16.2"
-  }
+    "name": "example-backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Jan Marek",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.16.2"
+    }
 }

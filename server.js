@@ -5,8 +5,11 @@ const app = express();
 app.use(bodyParser.json()); // for parsing application/json
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
     next();
 });
 
@@ -39,7 +42,7 @@ app.post('/contacts/:id', (req, res) => {
         ...req.body,
         id,
     };
-    contacts = contacts.map(c => c.id == req.params.id ? newContact : c);
+    contacts = contacts.map(c => (c.id == req.params.id ? newContact : c));
     res.json({
         contact: newContact,
     });
