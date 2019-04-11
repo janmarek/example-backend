@@ -12,6 +12,16 @@ app.use((req, res, next) => {
     );
     next();
 });
+// simulate network delay
+app.use((req, res, next) => setTimeout(next, Math.random() * 1000 + 500));
+// simulate unstable backend
+app.use((req, res, next) => {
+    if (Math.random() < 0.2) {
+        res.status(500).send();
+    } else {
+        next();
+    }
+});
 
 let id = 1;
 let items = [];
